@@ -1,6 +1,7 @@
 import sys
 import os
 
+
 # import pprint
 
 ## TODO 1
@@ -14,8 +15,7 @@ import os
 def calculate_func(hash_vector):
     f1 = hash_vector['D1'] and hash_vector['D2'] and hash_vector['D3'] and hash_vector['C1'] and hash_vector['C2'] and (
             hash_vector['B1'] or hash_vector['B2']) and (
-                 hash_vector['P1'] or hash_vector['P2'] or hash_vector['A1'] and hash_vector['M1'] and hash_vector[
-             'A2'] and (
+                 hash_vector['P1'] or hash_vector['P2'] or hash_vector['A1'] and hash_vector['M1'] and hash_vector['A2'] and (
                          hash_vector['B3'] or hash_vector['B5']) and hash_vector['P6'])
     f2 = hash_vector['D6'] and hash_vector['C4'] and hash_vector['M1'] and hash_vector['A1'] and (
             hash_vector['B3'] or hash_vector['B5']) and (hash_vector['P2'] or hash_vector['P3'])
@@ -40,12 +40,13 @@ def calculate_func(hash_vector):
 def uno_zero_generating(hash_vector):
     list_of_vectors = []
     for key in hash_vector.keys():
-        print(key)
+        # print(key)
         hash_vector[key] = 0
         list_of_vectors.append(hash_vector.copy())
         hash_vector[key] = 1
-    for item in list_of_vectors:
-        print(item)
+    # for item in list_of_vectors:
+        # print(item)
+    return list_of_vectors
 
 
 if __name__ == '__main__':
@@ -56,6 +57,7 @@ if __name__ == '__main__':
         'P6': 1,
         'A1': 1,
         'A2': 1,
+        'A3': 1,
         'C1': 1,
         'C2': 1,
         'C4': 1,
@@ -76,4 +78,7 @@ if __name__ == '__main__':
     }
 
     calculate_func(hash_vector)
-    uno_zero_generating(hash_vector)
+    list_of_zero_generator = uno_zero_generating(hash_vector)
+    for item in list_of_zero_generator:
+        print(item)
+        calculate_func(item)
