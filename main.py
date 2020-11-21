@@ -36,32 +36,44 @@ def calculate_func(hash_vector):
     print(F)
     return F
 
+
+def uno_zero_generating(hash_vector):
+    list_of_vectors = []
+    for key in hash_vector.keys():
+        print(key)
+        hash_vector[key] = 0
+        list_of_vectors.append(hash_vector.copy())
+        hash_vector[key] = 1
+    for item in list_of_vectors:
+        print(item)
+
+
 if __name__ == '__main__':
     hash_vector = {
-        'P1': 0,
-        'P2': 0,
-        'P3': 0,
-        'P6': 0,
-        'A1': 0,
-        'A2': 0,
-        'C1': 0,
-        'C2': 0,
-        'C4': 0,
-        'C5': 0,
-        'C6': 0,
-        'D1': 0,
-        'D2': 0,
-        'D3': 0,
-        'D6': 0,
-        'D7': 0,
-        'D8': 0,
-        'B1': 0,
-        'B2': 0,
-        'B3': 0,
-        'B4': 0,
-        'B5': 0,
-        'M1': 0
+        'P1': 1,
+        'P2': 1,
+        'P3': 1,
+        'P6': 1,
+        'A1': 1,
+        'A2': 1,
+        'C1': 1,
+        'C2': 1,
+        'C4': 1,
+        'C5': 1,
+        'C6': 1,
+        'D1': 1,
+        'D2': 1,
+        'D3': 1,
+        'D6': 1,
+        'D7': 1,
+        'D8': 1,
+        'B1': 1,
+        'B2': 1,
+        'B3': 1,
+        'B4': 1,
+        'B5': 1,
+        'M1': 1
     }
 
     calculate_func(hash_vector)
-
+    uno_zero_generating(hash_vector)
