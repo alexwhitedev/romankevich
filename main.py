@@ -63,14 +63,17 @@ def generating(hash_vector, hash_vector_popped, list_of_vectors, deep):
 def calculate_list_of_vectors(vector_list):
     counter_1 = 0
     counter_0 = 0
+    shits = []
     for item in vector_list:
         if calculate_func(item) == 1:
             counter_1 += 1
         else:
             counter_0 += 1
+            shits.append(item)
     return {
         'ok': counter_1,
-        'not-ok': counter_0
+        'not-ok': counter_0,
+        'shits': shits
     }
 
 
@@ -83,6 +86,45 @@ def clear(l):
             seen.add(t)
             new_l.append(d)
     return new_l
+
+
+def bullshit_element_finding(input_list):
+    bullshits_vector = {
+        'P1': 1,
+        'P2': 1,
+        'P3': 1,
+        'P6': 1,
+        'A1': 1,
+        'A2': 1,
+        'A3': 1,
+        'C1': 1,
+        'C2': 1,
+        'C4': 1,
+        'C5': 1,
+        'C6': 1,
+        'D1': 1,
+        'D2': 1,
+        'D3': 1,
+        'D6': 1,
+        'D7': 1,
+        'D8': 1,
+        'B1': 1,
+        'B2': 1,
+        'B3': 1,
+        'B4': 1,
+        'B5': 1,
+        'M1': 1
+    }
+    for key in bullshits_vector.keys():
+        bullshits_vector[key] = 0
+    for item in input_list:
+        for key in item.keys():
+            if item[key] == 0:
+                bullshits_vector[key] += 1
+    max_bullshit_count = max([bullshits_vector[key] for key in bullshits_vector.keys()])
+    for key in bullshits_vector.keys():
+        if bullshits_vector[key] == max_bullshit_count:
+            return key
 
 
 def create_results(lists, input_len):
@@ -98,7 +140,7 @@ def create_results(lists, input_len):
     counter = 0
     for item in result_list:
         counter += 1
-        print(f"{input_len}% result of {counter}: {item}")
+        print(f"{input_len}% result of {counter}: 'ok = ' {item['ok']}, not-ok = {item['not-ok']}, bullshit-element = {bullshit_element_finding(item['shits'])}")
 
 
 if __name__ == '__main__':
