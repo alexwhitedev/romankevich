@@ -51,7 +51,6 @@ def generating(hash_vector, hash_vector_popped, list_of_vectors, deep):
         if deep == 1:
             for key_max in popped_hash_vector.keys():
                 hash_vector_copy[key_max] = 0
-                # if hash_vector_copy not in list_of_vectors:
                 list_of_vectors.append(hash_vector_copy.copy())
                 hash_vector_copy[key_max] = 1
         else:
@@ -138,15 +137,3 @@ if __name__ == '__main__':
     create_results(lists, 100)
     create_results(lists, 50)
     create_results(lists, 10)
-
-
-
-
-    # result_list_10 = []
-    # for item in lists:
-    #     print(len(item))
-    #     result_list_full.append(calculate_list_of_vectors(item))
-    # counter = 0
-    # for item in result_list_10:
-    #     counter += 1
-    #     print(f"10% result of {counter}: {item}")
