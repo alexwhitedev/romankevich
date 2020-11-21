@@ -90,7 +90,7 @@ def create_results(lists, input_len):
     for item in lists:
         final_len = int(round(len(item) * input_len / 100))
         print(f"{final_len}")
-        new_item = item
+        new_item = item.copy()
         while len(new_item) > final_len:
             new_item.pop(-1)
         result_list.append(calculate_list_of_vectors(new_item))
