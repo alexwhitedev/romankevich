@@ -1,12 +1,22 @@
-import sys
-import os
-import csv
+import readers
+import matrixanalyzer
 
+reader = readers.RatingsReader('ratings.csv')
+
+ratings = reader.get_ratings()
+max_ratings = reader.get_max_ratings()
+
+reader = readers.RelevanceMatrixReader('relevance_matrix.csv')
+
+relevance_matrix = reader.get_relevance_matrix()
+
+matrixanalyzer.MatrixAnalyzer(relevance_matrix, ratings, max_ratings)
 
 def calculate_func(hash_vector):
     f1 = hash_vector['D1'] and hash_vector['D2'] and hash_vector['D3'] and hash_vector['C1'] and hash_vector['C2'] and (
             hash_vector['B1'] or hash_vector['B2']) and (
-                 hash_vector['P1'] or hash_vector['P2'] or hash_vector['A1'] and hash_vector['M1'] and hash_vector['A2'] and (
+                 hash_vector['P1'] or hash_vector['P2'] or hash_vector['A1'] and hash_vector['M1'] and hash_vector[
+             'A2'] and (
                          hash_vector['B3'] or hash_vector['B5']) and hash_vector['P6'])
     f2 = hash_vector['D6'] and hash_vector['C4'] and hash_vector['M1'] and hash_vector['A1'] and (
             hash_vector['B3'] or hash_vector['B5']) and (hash_vector['P2'] or hash_vector['P3'])
@@ -116,7 +126,6 @@ if __name__ == '__main__':
     for i in range(2, 5):
         duplicates_list = generating(hash_vector, hash_vector, [], i)
         lists.append(clear(duplicates_list))
-
 
     result_list = []
     for item in lists:
