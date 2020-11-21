@@ -46,3 +46,19 @@ if __name__ == '__main__':
                          hash_vector['B3'] or hash_vector['B5']) and hash_vector['P6'])
     f2 = hash_vector['D6'] and hash_vector['C4'] and hash_vector['M1'] and hash_vector['A1'] and (
             hash_vector['B3'] or hash_vector['B5']) and (hash_vector['P2'] or hash_vector['P3'])
+
+    f3 = hash_vector['D7'] and hash_vector['D8'] and hash_vector['C5'] and hash_vector['B3'] and (
+            hash_vector['P6'] or hash_vector['A2'] and hash_vector['M1'] and hash_vector['A1'] and (
+            hash_vector['B1'] or hash_vector['B2']) and hash_vector['P3'])
+
+    f4 = hash_vector['D8'] and hash_vector['C6'] and (
+            hash_vector['B3'] and hash_vector['P6'] or hash_vector['B4'] and hash_vector['P6'] or hash_vector['B4'] and
+            hash_vector['A3'] and hash_vector['B5'] and hash_vector['A2'] and hash_vector['M1'] and hash_vector[
+                'A1'] and (
+                    hash_vector['B1'] or hash_vector['B2']
+            ) and hash_vector['P1']
+    )
+
+    F = f1 and f2 and f3 and f4
+
+    print(F)
