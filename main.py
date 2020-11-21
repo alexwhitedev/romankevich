@@ -103,29 +103,20 @@ if __name__ == '__main__':
     }
 
     calculate_func(hash_vector)
-    list_of_uno_zero_generated = uno_zero_generating(hash_vector)
-    list_of_double_zero_generated = generating(hash_vector, hash_vector, [], 2)
-    list_of_tripple_zero_generated = generating(hash_vector, hash_vector, [], 3)
-    list_of_quadra_zero_generated = generating(hash_vector, hash_vector, [], 4)
-
-    print(len(list_of_uno_zero_generated))
-    print(len(list_of_double_zero_generated))
-    print(len(list_of_tripple_zero_generated))
-    print(len(list_of_quadra_zero_generated))
-
-    statistic_of_uno = calculate_list_of_vectors(list_of_uno_zero_generated)
-    statistic_of_duo = calculate_list_of_vectors(list_of_double_zero_generated)
-    statistic_of_tre = calculate_list_of_vectors(list_of_tripple_zero_generated)
-    statistic_of_quad = calculate_list_of_vectors(list_of_quadra_zero_generated)
-
-    print(f"result of uno: {statistic_of_uno}")
-    print(f"result of dou: {statistic_of_duo}")
-    print(f"result of tre: {statistic_of_tre}")
-    print(f"result of quad: {statistic_of_quad}")
+    lists = [uno_zero_generating(hash_vector)]
+    for i in range(2, 5):
+        lists.append(generating(hash_vector, hash_vector, [], i))
 
 
+    result_list = []
+    for item in lists:
+        print(len(item))
+        result_list.append(calculate_list_of_vectors(item))
 
-
+    counter = 0
+    for item in result_list:
+        counter += 1
+        print(f"result of {counter}: {item}")
 
 
 
