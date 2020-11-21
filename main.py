@@ -6,7 +6,8 @@ import csv
 def calculate_func(hash_vector):
     f1 = hash_vector['D1'] and hash_vector['D2'] and hash_vector['D3'] and hash_vector['C1'] and hash_vector['C2'] and (
             hash_vector['B1'] or hash_vector['B2']) and (
-                 hash_vector['P1'] or hash_vector['P2'] or hash_vector['A1'] and hash_vector['M1'] and hash_vector['A2'] and (
+                 hash_vector['P1'] or hash_vector['P2'] or hash_vector['A1'] and hash_vector['M1'] and hash_vector[
+             'A2'] and (
                          hash_vector['B3'] or hash_vector['B5']) and hash_vector['P6'])
     f2 = hash_vector['D6'] and hash_vector['C4'] and hash_vector['M1'] and hash_vector['A1'] and (
             hash_vector['B3'] or hash_vector['B5']) and (hash_vector['P2'] or hash_vector['P3'])
@@ -38,7 +39,6 @@ def uno_zero_generating(hash_vector_input):
 
 
 def generating(hash_vector, hash_vector_popped, list_of_vectors, deep):
-    # print(deep)
     deep -= 1
     for key in hash_vector_popped.keys():
 
@@ -85,6 +85,22 @@ def clear(l):
     return new_l
 
 
+def create_results(lists, input_len):
+
+    result_list = []
+    for item in lists:
+        final_len = int(round(len(item) * input_len / 100))
+        print(f"{final_len}")
+        new_item = item
+        while len(new_item) > final_len:
+            new_item.pop(-1)
+        result_list.append(calculate_list_of_vectors(new_item))
+    counter = 0
+    for item in result_list:
+        counter += 1
+        print(f"{input_len}% result of {counter}: {item}")
+
+
 if __name__ == '__main__':
     hash_vector = {
         'P1': 1,
@@ -117,66 +133,20 @@ if __name__ == '__main__':
     lists = [uno_zero_generating(hash_vector)]
     for i in range(2, 5):
         duplicates_list = generating(hash_vector, hash_vector, [], i)
-        # print(duplicates_list)
         lists.append(clear(duplicates_list))
 
-
-    result_list = []
-    for item in lists:
-        print(len(item))
-        result_list.append(calculate_list_of_vectors(item))
-
-    counter = 0
-    for item in result_list:
-        counter += 1
-        print(f"result of {counter}: {item}")
+    create_results(lists, 100)
+    create_results(lists, 50)
+    create_results(lists, 10)
 
 
 
 
-#
-# def double_zero_generating(hash_vector):
-#     list_of_vectors = []
-#
-#     for key_first in hash_vector.keys():
-#
-#         hash_vector_copy = hash_vector.copy()
-#         hash_vector_copy[key_first] = 0
-#
-#         poped_hash_vector = hash_vector_copy.copy()
-#         poped_hash_vector.pop(key_first)
-#         for key_second in poped_hash_vector.keys():
-#             hash_vector_copy[key_second] = 0
-#             if hash_vector_copy not in list_of_vectors:
-#                 list_of_vectors.append(hash_vector_copy.copy())
-#             hash_vector_copy[key_second] = 1
-#
-#     return list_of_vectors
-
-#
-# def tripple_zero_generating(hash_vector):
-#     list_of_vectors = []
-#
-#     for key_first in hash_vector.keys():
-#
-#         hash_vector_copy = hash_vector.copy()
-#         hash_vector_copy[key_first] = 0
-#
-#         poped_hash_vector = hash_vector_copy.copy()
-#         poped_hash_vector.pop(key_first)
-#
-#         for key_second in poped_hash_vector.keys():
-#             hash_vector_copy[key_second] = 0
-#
-#             double_poped_hash_vector = poped_hash_vector.copy()
-#             double_poped_hash_vector.pop(key_second)
-#
-#             for key_third in double_poped_hash_vector.keys():
-#                 hash_vector_copy[key_third] = 0
-#                 if hash_vector_copy not in list_of_vectors:
-#                     list_of_vectors.append(hash_vector_copy.copy())
-#                 hash_vector_copy[key_third] = 1
-#
-#             hash_vector_copy[key_second] = 1
-#
-#     return list_of_vectors
+    # result_list_10 = []
+    # for item in lists:
+    #     print(len(item))
+    #     result_list_full.append(calculate_list_of_vectors(item))
+    # counter = 0
+    # for item in result_list_10:
+    #     counter += 1
+    #     print(f"10% result of {counter}: {item}")
