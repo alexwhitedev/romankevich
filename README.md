@@ -7,4 +7,4 @@
 6. Calculate functions using full vector search for the 10% fourfold error
 7. Implement algorithm using processors rating table which calculates functions above considering the unactive processors
   - When processors can be replaced with other
- - For irreplaceble processors cases 
+  - For irreplaceble processors cases
