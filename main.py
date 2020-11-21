@@ -38,7 +38,6 @@ def uno_zero_generating(hash_vector_input):
 
 
 def generating(hash_vector, hash_vector_popped, list_of_vectors, deep):
-    # print(deep)
     deep -= 1
     for key in hash_vector_popped.keys():
 
@@ -51,7 +50,6 @@ def generating(hash_vector, hash_vector_popped, list_of_vectors, deep):
         if deep == 1:
             for key_max in popped_hash_vector.keys():
                 hash_vector_copy[key_max] = 0
-                # if hash_vector_copy not in list_of_vectors:
                 list_of_vectors.append(hash_vector_copy.copy())
                 hash_vector_copy[key_max] = 1
         else:
@@ -117,7 +115,6 @@ if __name__ == '__main__':
     lists = [uno_zero_generating(hash_vector)]
     for i in range(2, 5):
         duplicates_list = generating(hash_vector, hash_vector, [], i)
-        # print(duplicates_list)
         lists.append(clear(duplicates_list))
 
 
@@ -130,53 +127,3 @@ if __name__ == '__main__':
     for item in result_list:
         counter += 1
         print(f"result of {counter}: {item}")
-
-
-
-
-#
-# def double_zero_generating(hash_vector):
-#     list_of_vectors = []
-#
-#     for key_first in hash_vector.keys():
-#
-#         hash_vector_copy = hash_vector.copy()
-#         hash_vector_copy[key_first] = 0
-#
-#         poped_hash_vector = hash_vector_copy.copy()
-#         poped_hash_vector.pop(key_first)
-#         for key_second in poped_hash_vector.keys():
-#             hash_vector_copy[key_second] = 0
-#             if hash_vector_copy not in list_of_vectors:
-#                 list_of_vectors.append(hash_vector_copy.copy())
-#             hash_vector_copy[key_second] = 1
-#
-#     return list_of_vectors
-
-#
-# def tripple_zero_generating(hash_vector):
-#     list_of_vectors = []
-#
-#     for key_first in hash_vector.keys():
-#
-#         hash_vector_copy = hash_vector.copy()
-#         hash_vector_copy[key_first] = 0
-#
-#         poped_hash_vector = hash_vector_copy.copy()
-#         poped_hash_vector.pop(key_first)
-#
-#         for key_second in poped_hash_vector.keys():
-#             hash_vector_copy[key_second] = 0
-#
-#             double_poped_hash_vector = poped_hash_vector.copy()
-#             double_poped_hash_vector.pop(key_second)
-#
-#             for key_third in double_poped_hash_vector.keys():
-#                 hash_vector_copy[key_third] = 0
-#                 if hash_vector_copy not in list_of_vectors:
-#                     list_of_vectors.append(hash_vector_copy.copy())
-#                 hash_vector_copy[key_third] = 1
-#
-#             hash_vector_copy[key_second] = 1
-#
-#     return list_of_vectors
