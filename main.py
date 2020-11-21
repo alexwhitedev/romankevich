@@ -62,3 +62,4 @@ if __name__ == '__main__':
     F = f1 and f2 and f3 and f4
 
     print(F)
+
