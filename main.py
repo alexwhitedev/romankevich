@@ -1,6 +1,7 @@
 import sys
 import os
 import csv
+from random import randint
 
 
 def calculate_func(hash_vector):
@@ -92,7 +93,7 @@ def create_results(lists, input_len):
         print(f"{final_len}")
         new_item = item.copy()
         while len(new_item) > final_len:
-            new_item.pop(-1)
+            new_item.pop(randint(0, len(new_item) - 1))
         result_list.append(calculate_list_of_vectors(new_item))
     counter = 0
     for item in result_list:
