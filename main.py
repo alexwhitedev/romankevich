@@ -51,8 +51,8 @@ def generating(hash_vector, hash_vector_popped, list_of_vectors, deep):
         if deep == 1:
             for key_max in popped_hash_vector.keys():
                 hash_vector_copy[key_max] = 0
-                if hash_vector_copy not in list_of_vectors:
-                    list_of_vectors.append(hash_vector_copy.copy())
+                # if hash_vector_copy not in list_of_vectors:
+                list_of_vectors.append(hash_vector_copy.copy())
                 hash_vector_copy[key_max] = 1
         else:
             list_of_vectors = generating(hash_vector_copy, popped_hash_vector, list_of_vectors, deep)
@@ -72,6 +72,17 @@ def calculate_list_of_vectors(vector_list):
         'ok': counter_1,
         'not-ok': counter_0
     }
+
+
+def clear(l):
+    seen = set()
+    new_l = []
+    for d in l:
+        t = tuple(d.items())
+        if t not in seen:
+            seen.add(t)
+            new_l.append(d)
+    return new_l
 
 
 if __name__ == '__main__':
@@ -105,7 +116,9 @@ if __name__ == '__main__':
     calculate_func(hash_vector)
     lists = [uno_zero_generating(hash_vector)]
     for i in range(2, 5):
-        lists.append(generating(hash_vector, hash_vector, [], i))
+        duplicates_list = generating(hash_vector, hash_vector, [], i)
+        # print(duplicates_list)
+        lists.append(clear(duplicates_list))
 
 
     result_list = []
