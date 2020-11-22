@@ -10,7 +10,6 @@ reader = readers.RelevanceMatrixReader('relevance_matrix.csv')
 
 relevance_matrix = reader.get_relevance_matrix()
 
-matrixanalyzer.MatrixAnalyzer(relevance_matrix, ratings, max_ratings)
 
 def calculate_func(hash_vector):
     f1 = hash_vector['D1'] and hash_vector['D2'] and hash_vector['D3'] and hash_vector['C1'] and hash_vector['C2'] and (
@@ -38,28 +37,42 @@ def calculate_func(hash_vector):
 
 
 def uno_zero_generating(hash_vector_input):
+    processors_can_be_replaced = matrixanalyzer \
+        .MatrixAnalyzer(relevance_matrix, ratings, max_ratings) \
+        .get_analysis_result()
     hash_vector = hash_vector_input
     list_of_vectors = []
     for key in hash_vector.keys():
-        hash_vector[key] = 0
+        if not (key.startswith('P') and processors_can_be_replaced[key]):
+            hash_vector[key] = 0
         list_of_vectors.append(hash_vector.copy())
         hash_vector[key] = 1
     return list_of_vectors
 
 
+analyzer = matrixanalyzer.MatrixAnalyzer(relevance_matrix, ratings, max_ratings)
+
+
 def generating(hash_vector, hash_vector_popped, list_of_vectors, deep):
     deep -= 1
+
+    processors_can_be_replaced = analyzer.get_analysis_result()
     for key in hash_vector_popped.keys():
 
         hash_vector_copy = hash_vector.copy()
-        hash_vector_copy[key] = 0
+
+        if not (key.startswith('P') and processors_can_be_replaced[key]):
+            hash_vector_copy[key] = 0
+        else:
+            analyzer.replace_processor(key)
 
         popped_hash_vector = hash_vector_popped.copy()
         popped_hash_vector.pop(key)
 
         if deep == 1:
             for key_max in popped_hash_vector.keys():
-                hash_vector_copy[key_max] = 0
+                if not (key.startswith('P') and processors_can_be_replaced[key]):
+                    hash_vector_copy[key_max] = 0
                 list_of_vectors.append(hash_vector_copy.copy())
                 hash_vector_copy[key_max] = 1
         else:
@@ -92,6 +105,18 @@ def clear(l):
             new_l.append(d)
     return new_l
 
+
+def calculate_durability(vector):
+    result = 1.0
+    vector_len = len(vector.items())
+    p = (1 - 1 / vector_len)
+    q = 1 / vector_len
+
+    for key in vector.keys():
+        V = vector[key]
+        result = result * (V * p + (1 - V) * q)
+
+    return result
 
 if __name__ == '__main__':
     hash_vector = {
@@ -131,6 +156,9 @@ if __name__ == '__main__':
     for item in lists:
         print(len(item))
         result_list.append(calculate_list_of_vectors(item))
+
+    durability = calculate_durability(lists[0][5])
+    print(f"Durability = {durability}")
 
     counter = 0
     for item in result_list:
