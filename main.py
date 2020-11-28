@@ -107,16 +107,38 @@ def clear(l):
 
 
 def calculate_durability(vector):
+    q = {
+        'Pi': 1.2 * (1/(10**4)),
+        'Ai': 1.1 * (1/(10**4)),
+        'Ci': 1.9 * (1/(10**4)),
+        'Di': 3.2 * (1/(10**5)),
+        'Bi': 1.4 * (1/(10**5)),
+        'Mi': 3.3 * (1/(10**4))
+    }
     result = 1.0
-    vector_len = len(vector.items())
-    p = (1 - 1 / vector_len)
-    q = 1 / vector_len
 
     for key in vector.keys():
         V = vector[key]
-        result = result * (V * p + (1 - V) * q)
+        if key.startswith('P'):
+            result = result * get_result_for('Pi', q, V)
+        elif key.startswith('A'):
+            result = result * get_result_for('Ai', q, V)
+        elif key.startswith('C'):
+            result = result * get_result_for('Ci', q, V)
+        elif key.startswith('D'):
+            result = result * get_result_for('Di', q, V)
+        elif key.startswith('B'):
+            result = result * get_result_for('Bi', q, V)
+        elif key.startswith('M'):
+            result = result * get_result_for('Mi', q, V)
 
     return result
+
+
+def get_result_for(elem, q, V):
+    p = (1.0 - q[elem])
+    return V * p + (1 - V) * q[elem]
+
 
 if __name__ == '__main__':
     hash_vector = {
