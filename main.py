@@ -1,6 +1,21 @@
-import sys
 import os
-import csv
+
+import matrixanalyzer
+import readers
+from random import randint
+import pandas as pd
+
+
+reader = readers.RatingsReader('ratings.csv')
+
+ratings = reader.get_ratings()
+max_ratings = reader.get_max_ratings()
+
+reader = readers.RelevanceMatrixReader('relevance_matrix.csv')
+
+relevance_matrix = reader.get_relevance_matrix()
+
+analyzer = matrixanalyzer.MatrixAnalyzer(relevance_matrix, ratings, max_ratings)
 
 
 def calculate_func(hash_vector):
@@ -8,6 +23,7 @@ def calculate_func(hash_vector):
             hash_vector['B1'] or hash_vector['B2']) and (
                  hash_vector['P1'] or hash_vector['P2'] or hash_vector['A1'] and hash_vector['M1'] and hash_vector['A2'] and (
                          hash_vector['B3'] or hash_vector['B5']) and hash_vector['P6'])
+
     f2 = hash_vector['D6'] and hash_vector['C4'] and hash_vector['M1'] and hash_vector['A1'] and (
             hash_vector['B3'] or hash_vector['B5']) and (hash_vector['P2'] or hash_vector['P3'])
 
@@ -41,7 +57,6 @@ def uno_zero_generating(hash_vector_input):
     return list_of_vectors
 
 
-analyzer = matrixanalyzer.MatrixAnalyzer(relevance_matrix, ratings, max_ratings)
 
 
 def generating(hash_vector, hash_vector_popped, list_of_vectors, deep):
@@ -136,7 +151,7 @@ def bullshit_element_finding(input_list):
     max_bullshit_count = max([bullshits_vector[key] for key in bullshits_vector.keys()])
     for key in bullshits_vector.keys():
         if bullshits_vector[key] == max_bullshit_count:
-            return key
+            return [key, bullshits_vector]
 
 
 def create_results(lists, input_len):
@@ -150,9 +165,15 @@ def create_results(lists, input_len):
             new_item.pop(randint(0, len(new_item) - 1))
         result_list.append(calculate_list_of_vectors(new_item))
     counter = 0
+    edf = pd.DataFrame()
     for item in result_list:
+        bullshit_elements_couple = bullshit_element_finding(item['shits'])
+        ndf = pd.DataFrame(bullshit_elements_couple[1], index=[1])
+        ndf['worse'] = bullshit_elements_couple[0]
+        edf = pd.concat([edf, ndf])
+        edf.to_excel(os.path.join(f'{input_len}.xlsx'))
         counter += 1
-        print(f"{input_len}% result of {counter}: 'ok = ' {item['ok']}, not-ok = {item['not-ok']}, bullshit-element = {bullshit_element_finding(item['shits'])}")
+        print(f"{input_len}% result of {counter}: 'ok = ' {item['ok']}, not-ok = {item['not-ok']}, bullshit-element = {bullshit_elements_couple}")
 
 
 def calculate_durability(vector):
@@ -223,18 +244,14 @@ if __name__ == '__main__':
         duplicates_list = generating(hash_vector, hash_vector, [], i)
         lists.append(clear(duplicates_list))
 
-    result_list = []
-    for item in lists:
-        print(len(item))
-        result_list.append(calculate_list_of_vectors(item))
+    with open('durability.data', 'w+') as file:
+        file.writelines('')
 
-    durability = calculate_durability(lists[0][5])
-    print(f"Durability = {durability}")
-
-    counter = 0
-    for item in result_list:
-        counter += 1
-        print(f"result of {counter}: {item}")
+    for i in range(0, 4):
+        durability = calculate_durability(lists[i][5])
+        print(f"Durability = {durability}")
+        with open('durability.data', 'a+') as file:
+            file.writelines(f'{durability}\n')
 
     create_results(lists, 100)
     create_results(lists, 50)
