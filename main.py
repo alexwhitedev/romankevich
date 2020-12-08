@@ -5,7 +5,6 @@ import readers
 from random import randint
 import pandas as pd
 
-
 reader = readers.RatingsReader('ratings.csv')
 
 ratings = reader.get_ratings()
@@ -20,9 +19,9 @@ analyzer = matrixanalyzer.MatrixAnalyzer(relevance_matrix, ratings, max_ratings)
 
 def calculate_func(hash_vector):
     f1 = hash_vector['D1'] and hash_vector['D2'] and hash_vector['D3'] and hash_vector['C1'] and hash_vector['C2'] and (
-            hash_vector['B1'] or hash_vector['B2']) and (
-                 hash_vector['P1'] or hash_vector['P2'] or hash_vector['A1'] and hash_vector['M1'] and hash_vector['A2'] and (
-                         hash_vector['B3'] or hash_vector['B5']) and hash_vector['P6'])
+                hash_vector['B1'] or hash_vector['B2']) and (
+                     hash_vector['P1'] or hash_vector['P2'] or hash_vector['A1'] and hash_vector['M1'] and hash_vector['A2'] and (
+            hash_vector['B3'] or hash_vector['B5']) and hash_vector['P6'])
 
     f2 = hash_vector['D6'] and hash_vector['C4'] and hash_vector['M1'] and hash_vector['A1'] and (
             hash_vector['B3'] or hash_vector['B5']) and (hash_vector['P2'] or hash_vector['P3'])
@@ -55,8 +54,6 @@ def uno_zero_generating(hash_vector_input):
         list_of_vectors.append(hash_vector.copy())
         hash_vector[key] = 1
     return list_of_vectors
-
-
 
 
 def generating(hash_vector, hash_vector_popped, list_of_vectors, deep):
@@ -155,7 +152,6 @@ def bullshit_element_finding(input_list):
 
 
 def create_results(lists, input_len):
-
     result_list = []
     for item in lists:
         final_len = int(round(len(item) * input_len / 100))
@@ -173,17 +169,18 @@ def create_results(lists, input_len):
         edf = pd.concat([edf, ndf])
         edf.to_excel(os.path.join(f'{input_len}.xlsx'))
         counter += 1
-        print(f"{input_len}% result of {counter}: 'ok = ' {item['ok']}, not-ok = {item['not-ok']}, bullshit-element = {bullshit_elements_couple}")
+        print(
+            f"{input_len}% result of {counter}: 'ok = ' {item['ok']}, not-ok = {item['not-ok']}, bullshit-element = {bullshit_elements_couple}")
 
 
 def calculate_durability(vector):
     q = {
-        'Pi': 1.2 * (1/(10**4)),
-        'Ai': 1.1 * (1/(10**4)),
-        'Ci': 1.9 * (1/(10**4)),
-        'Di': 3.2 * (1/(10**5)),
-        'Bi': 1.4 * (1/(10**5)),
-        'Mi': 3.3 * (1/(10**4))
+        'Pi': 1.2 * (1 / (10 ** 4)),
+        'Ai': 1.1 * (1 / (10 ** 4)),
+        'Ci': 1.9 * (1 / (10 ** 4)),
+        'Di': 3.2 * (1 / (10 ** 5)),
+        'Bi': 1.4 * (1 / (10 ** 5)),
+        'Mi': 3.3 * (1 / (10 ** 4))
     }
     result = 1.0
 
@@ -248,7 +245,12 @@ if __name__ == '__main__':
         file.writelines('')
 
     for i in range(0, 4):
-        durability = calculate_durability(lists[i][5])
+        durability_sum = 0
+        durability_count = 0
+        for j in range(0, len(lists[i])):
+            durability_sum += calculate_durability(lists[i][j])
+            durability_count += 1
+        durability = durability_sum / durability_count
         print(f"Durability = {durability}")
         with open('durability.data', 'a+') as file:
             file.writelines(f'{durability}\n')
